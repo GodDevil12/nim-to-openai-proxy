@@ -33,8 +33,8 @@ app.use((req, res, next) => {
 const NIM_API_BASE = process.env.NIM_API_BASE || 'https://integrate.api.nvidia.com/v1';
 const NIM_API_KEY = process.env.NIM_API_KEY;
 
-const SHOW_REASONING = true;
-const ENABLE_THINKING_MODE = true;
+const SHOW_REASONING = false;
+const ENABLE_THINKING_MODE = false;
 
 // Model mapping
 const MODEL_MAPPING = {
@@ -51,7 +51,7 @@ const MODEL_MAPPING = {
   'mistral': 'mistralai/mistral-large-3-675b-instruct-2512',
   'mistral-turbo': 'mistralai/mistral-medium-3.5-128b',
   'mistral-pro': 'mistralai/mistral-small-4-119b-2603',
-  'google-light': 'google/gemma-3-27b-it',
+  'google-light': 'google/gemma-4-31b-it',
   'google-lightest': 'google/gemma-2-2b-it',
   'google-lighter': 'google/gemma-3n-e4b-it'
 };
