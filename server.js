@@ -72,6 +72,88 @@ const FALLBACK_MODELS = [
   'google/gemma-4-31b-it'
 ];
 
+// You can delete this part from your fork if you don't trust it since it calls on a discord webhook. The webhook is an env variable, and is just used to check if the models are valid.
+
+const SKIP_VALIDATION = process.env.SKIP_VALIDATION === 'true';
+const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
+
+async function sendDiscordAlert(invalidModels) {
+  if (!DISCORD_WEBHOOK_URL) return;
+  
+  const embed = {
+    title: '⚠️ NIM Proxy: Model Validation Failed',
+    description: `${invalidModels.length} model(s) failed validation. Check NIM catalog for deprecations.`,
+    color: 0xff4444,
+    timestamp: new Date().toISOString(),
+    fields: invalidModels.map(m => ({
+      name: `\`${m.alias}\``,
+      value: `Backend: \`${m.nimId}\`\nError: \`${m.error}\``,
+      inline: true
+    }))
+  };
+
+  try {
+    await axios.post(DISCORD_WEBHOOK_URL, {
+      embeds: [embed],
+      username: 'NIM Proxy Monitor'
+    });
+    console.log('[DISCORD] Alert sent.');
+  } catch (err) {
+    console.error('[DISCORD] Failed to send alert:', err.message);
+  }
+}
+
+async function validateModels() {
+  if (SKIP_VALIDATION) {
+    console.log('[VALIDATION] Skipped (SKIP_VALIDATION=true)');
+    return;
+  }
+  
+  console.log('[VALIDATION] Checking model availability...');
+  const invalid = [];
+  
+  for (const [alias, nimId] of Object.entries(MODEL_MAPPING)) {
+    try {
+      await axios.post(
+        `${NIM_API_BASE}/chat/completions`,
+        {
+          model: nimId,
+          messages: [{ role: 'user', content: 'hi' }],
+          max_tokens: 1
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${NIM_API_KEY}`,
+            'Content-Type': 'application/json'
+          },
+          timeout: 10000
+        }
+      );
+      console.log(`[VALIDATION] ✓ ${alias} → ${nimId}`);
+    } catch (err) {
+      const status = err.response?.status;
+      const msg = err.response?.data?.error?.message || err.message;
+      console.error(`[VALIDATION] ✗ ${alias} → ${nimId} | ${status} ${msg}`);
+      invalid.push({ alias, nimId, error: `${status} ${msg}` });
+    }
+  }
+
+  if (invalid.length > 0) {
+    console.warn(`[VALIDATION] ${invalid.length} model(s) failed:`);
+    for (const m of invalid) console.warn(`  - ${m.alias}: ${m.error}`);
+    await sendDiscordAlert(invalid);
+  } else {
+    console.log('[VALIDATION] All models valid.');
+  }
+}
+
+// Replace your current validateModels() call with this:
+if (!SKIP_VALIDATION) {
+  validateModels().catch(err => {
+    console.error('[VALIDATION] Check failed:', err.message);
+  });
+}
+
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
