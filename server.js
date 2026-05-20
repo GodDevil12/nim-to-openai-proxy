@@ -242,7 +242,8 @@ app.post('/v1/chat/completions', async (req, res) => {
       res.setHeader('Cache-Control', 'no-cache');
       res.setHeader('Connection', 'keep-alive');
 
-      let buffer = '';
+      // FIX: Buffer raw bytes instead of strings to prevent UTF-8 corruption across chunk boundaries
+      let buffer = Buffer.alloc(0);
       let reasoningOpen = false;
       let doneSent = false;
 
@@ -268,14 +269,15 @@ app.post('/v1/chat/completions', async (req, res) => {
 
             if (SHOW_REASONING) {
               if (reasoning && !reasoningOpen) {
-                content = `<think>\n${reasoning}`;
+                // FIX: Escape newlines in reasoning to prevent SSE line-break corruption
+                content = `<thinking>\n${reasoning.replace(/\n/g, '\\n')}`;
                 reasoningOpen = true;
               } else if (reasoning) {
-                content = reasoning;
+                content = reasoning.replace(/\n/g, '\\n');
               }
 
               if (delta.content && reasoningOpen) {
-                content += `<think>\n\n${delta.content}`;
+                content += `\n</thinking>\n\n${delta.content}`;
                 reasoningOpen = false;
               }
             }
@@ -291,9 +293,15 @@ app.post('/v1/chat/completions', async (req, res) => {
       };
 
       response.data.on('data', chunk => {
-        buffer += chunk.toString();
-        const lines = buffer.split('\n');
-        buffer = lines.pop() || '';
+        // FIX: Concatenate raw buffers, then decode to string to preserve multi-byte UTF-8 chars
+        buffer = Buffer.concat([buffer, chunk]);
+        const str = buffer.toString('utf8');
+        const lines = str.split('\n');
+        
+        // Keep incomplete UTF-8 bytes for next chunk
+        const lastLine = lines.pop() || '';
+        const lastLineBytes = Buffer.from(lastLine, 'utf8');
+        buffer = Buffer.concat([lastLineBytes]);
 
         for (const line of lines) {
           processLine(line);
@@ -301,10 +309,14 @@ app.post('/v1/chat/completions', async (req, res) => {
       });
 
       response.data.on('end', () => {
-        if (buffer.trim()) {
-          console.warn('[STREAM] Processing leftover buffer at end:', buffer.slice(0, 100));
-          for (const line of buffer.split('\n')) {
-            processLine(line);
+        // Process any remaining complete lines in buffer
+        if (buffer.length > 0) {
+          const str = buffer.toString('utf8').trim();
+          if (str) {
+            console.warn('[STREAM] Processing leftover buffer at end:', str.slice(0, 100));
+            for (const line of str.split('\n')) {
+              processLine(line);
+            }
           }
         }
 
@@ -344,7 +356,9 @@ app.post('/v1/chat/completions', async (req, res) => {
           let content = choice.message?.content || '';
 
           if (SHOW_REASONING && choice.message?.reasoning_content) {
-            content = `<think>\n${choice.message.reasoning_content}\n<think>\n\n${content}`;
+            // FIX: Escape newlines in non-stream reasoning too
+            const safeReasoning = choice.message.reasoning_content.replace(/\n/g, '\\n');
+            content = `<thinking>\n${safeReasoning}\n</thinking>\n\n${content}`;
           }
 
           return {
