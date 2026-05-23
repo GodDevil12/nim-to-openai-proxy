@@ -23,10 +23,14 @@ Node.js 18+, a NVAPI/Nim API key, a deployment platform (though if you follow th
 | `gpt-4o` | `deepseek-ai/deepseek-v4-pro` | Complex plots, reasoning | Medium | High |
 | `gpt-4` | `qwen/qwen3-coder-480b-a35b-instruct` | Tech/cyberpunk personas | Slow | Medium |
 | `gpt-4-flash` | `deepseek-ai/deepseek-v4-flash` | Fast, non-edgy RP | Fast | High |
+| `gpt-3.5o` | `nvidia/nemotron-mini-4b-instruct` | Lightweight RP, fast responses | Very Fast | Low |
 | `gemini-pro` | `nvidia/llama-3.3-nemotron-super-49b-v1.5` | Daily driver, low latency | Fast | Low |
+| `gemini-turbo` | `meta/llama-3.3-70b-instruct` | Fast general purpose | Fast | Low-Medium |
+| `gemini-turbo?` | `abacusai/dracarys-llama-3.1-70b-instruct` | Fine-tuned variant of above | Fast | Low-Medium |
 | `mistral` | `mistralai/mistral-large-3-675b-instruct-2512` | Best quality, unfiltered | Very Slow | Low |
 | `mistral-turbo` | `mistralai/mistral-medium-3.5-128b` | Fast fallback | Fast | Low |
 | `mistral-pro` | `mistralai/mistral-small-4-119b-2603` | Lightweight scenes | Very Fast | Low |
+| `mistral-fast` | `mistralai/ministral-14b-instruct-2512` | Fast, compact Mistral | Very Fast | Low |
 | `mistral-nemo` | `mistralai/mistral-nemotron` | Casual/anime RP | Fast | Low |
 | `claude-3-opus` | `openai/gpt-oss-120b` | Alternative to Chinese models | Medium | Low-Medium |
 | `claude-3-sonnet` | `openai/gpt-oss-20b` | Fast, distinct voice | Fast | Low-Medium |
@@ -44,9 +48,10 @@ Node.js 18+, a NVAPI/Nim API key, a deployment platform (though if you follow th
 | If your RP involves... | Avoid | Use instead |
 |---|---|---|
 | Dark themes, violence, mature content | `gpt-4o`, `gpt-4-flash`, `gpt-4-turbo` (They have high filters due to being based in China) | `mistral`, `gemini-pro`, `claude-3-opus` |
-| Fast responses needed | `mistral` (675B) | `gemini-pro`, `mistral-turbo` |
+| Fast responses needed | `mistral` (675B) | `gemini-pro`, `mistral-turbo`, `gpt-3.5o` |
 | Long context / memory | Anything under 30B | `gpt-4-turbo`, `mistral`, `gpt-4` |
 | Technical/coding personas | Anything except `gpt-4` | `gpt-4` (Qwen Coder) |
+| Testing / very fast replies | — | `google-lightest`, `gpt-3.5o` |
 
 ### Fallback Chain
 
@@ -94,7 +99,7 @@ Set to `false` or remove to disable. Changes apply without redeploying.
 | Problem | Likely Cause | Fix |
 |---|---|---|
 | "All models failed" error | NIM API key invalid or expired | Regenerate key at build.nvidia.com |
-| Very slow responses | Using `mistral` (675B) or Chinese models during peak hours | Switch to `gemini-pro` or `mistral-turbo` |
+| Very slow responses | Using `mistral` (675B) or Chinese models during peak hours | Switch to `gemini-pro`, `mistral-turbo`, or `gpt-3.5o` |
 | Filter interrupts RP | Using Chinese-hosted model for mature content | Use `mistral`, `gemini-pro`, or `claude-3-opus` |
 | 404 on `/v1/chat/completions` | Auth mismatch | Verify `CLIENT_AUTH_KEY` matches between Railway and client |
 | "Failed to fetch (unk)" / "A network error occurred" | JanitorAI cached old proxy config after changing URL or model | **Reload the page** — changes don't apply until refresh |
@@ -135,4 +140,3 @@ I am not a professional developer. This project was built with help from AI tool
 ## Support my sanity during deprecation season
 
 [You dont need to support me but it helps me continue to maintain my code which is already held together with hopes and dreams.](https://ko-fi.com/jontte6)
-
