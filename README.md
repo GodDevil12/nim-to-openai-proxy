@@ -23,7 +23,7 @@ Node.js 24+, a NVAPI/Nim API key, a deployment platform (though if you follow th
 | Alias | Backend Model | Best For | Speed | Filters |
 |---|---|---|---|---|
 | `gpt-4-turbo` | `moonshotai/kimi-k2.6` | Deep, immersive RP | Medium | Medium-High |
-| `gpt-4` | `nvidia/nemotron-3-super-120b-a12b` | Lightweight tasks | Fast | Low |
+| `gpt-4` | `nvidia/nemotron-3-ultra-550b-a55b` | Immersive RP | Fast | Low |
 | `gpt-4o` | `deepseek-ai/deepseek-v4-pro` |
 | `gpt-4-flash` | `deepseek-ai/deepseek-v4-flash` | Fast, non-edgy RP | Fast | High |
 | `gpt-3.5o` | `nvidia/nemotron-mini-4b-instruct` | Lightweight RP, fast responses | Very Fast | Low |
