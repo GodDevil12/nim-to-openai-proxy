@@ -18,8 +18,8 @@ const NIM_API_KEY = process.env.NIM_API_KEY;
 const CLIENT_AUTH_KEY = process.env.CLIENT_AUTH_KEY;
 
 // Control whether thinking/reasoning blocks are sent to the client
-const SHOW_REASONING = process.env.SHOW_REASONING === 'true'; 
-const ENABLE_THINKING_MODE = process.env.ENABLE_THINKING_MODE === 'true';
+const SHOW_REASONING = process.env.SHOW_REASONING === 'false'; 
+const ENABLE_THINKING_MODE = process.env.ENABLE_THINKING_MODE === 'false';
 const SKIP_VALIDATION = process.env.SKIP_VALIDATION === 'true';
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 
