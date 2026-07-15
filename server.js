@@ -286,7 +286,7 @@ app.post('/v1/chat/completions', async (req, res) => {
 
     console.log("Incoming model:", model);
 
-    const primaryModel = MODEL_MAPPING[model] || 'nvidia/llama-3.3-nemotron-super-49b-v1.5';
+    const primaryModel = MODEL_MAPPING[model] || model;
     const modelChain = [primaryModel, ...FALLBACK_MODELS];
 
     // FIX: NVIDIA expects "enable_thinking": true/false instead of raw objects
