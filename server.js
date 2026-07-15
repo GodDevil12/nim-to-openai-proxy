@@ -76,8 +76,8 @@ const MODEL_MAPPING = {
 };
 
 const FALLBACK_MODELS = [
-  'mistralai/mistral-medium-3.5-128b',
-  'mistralai/mistral-small-4-119b-2603',
+  'deepseek-ai/deepseek-v4-pro',
+  'z-ai/glm-5.2',
   'deepseek-ai/deepseek-v4-flash',
   'google/gemma-4-31b-it'
 ];
