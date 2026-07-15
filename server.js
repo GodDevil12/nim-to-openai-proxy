@@ -289,6 +289,8 @@ app.post('/v1/chat/completions', async (req, res) => {
       stream
     } = req.body;
 
+    console.log("Incoming model:", model);
+
     const primaryModel = MODEL_MAPPING[model] || 'nvidia/llama-3.3-nemotron-super-49b-v1.5';
     const modelChain = [primaryModel, ...FALLBACK_MODELS];
 
