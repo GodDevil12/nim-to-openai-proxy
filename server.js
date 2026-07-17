@@ -76,10 +76,10 @@ const MODEL_MAPPING = {
 };
 
 const FALLBACK_MODELS = [
-  'deepseek-ai/deepseek-v4-pro',
-  'z-ai/glm-5.2',
-  'deepseek-ai/deepseek-v4-flash',
-  'google/gemma-4-31b-it'
+  'google/gemma-4-31b-it',
+  'mistralai/mistral-medium-3.5-128b',
+  'openai/gpt-oss-20b',
+  'abacusai/dracarys-llama-3.1-70b-instruct'
 ];
 
 // ─── Middleware ─────────────────────────────────────────────────────────────
