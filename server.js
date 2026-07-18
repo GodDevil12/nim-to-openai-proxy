@@ -294,12 +294,15 @@ app.post('/v1/chat/completions', async (req, res) => {
       messages,
       temperature: temperature ?? 0.7,
       max_tokens: Math.min(max_tokens ?? 2048, MAX_TOKENS_LIMIT),
-      stream: stream || false,
-      extra_body: {
+      stream: stream || false
+    };
+
+    if (ENABLE_THINKING_MODE) {
+      baseRequest.extra_body = {
         chat_template_kwargs: {
-          enable_thinking: ENABLE_THINKING_MODE
+          enable_thinking: true
         }
-      }
+      };
     };
 
     const { response, model: usedModel } = await callWithFallback(baseRequest, modelChain);
