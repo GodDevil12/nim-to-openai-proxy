@@ -67,7 +67,7 @@ const MODEL_MAPPING = {
   'mistral-nemo': 'mistralai/mistral-nemotron',
   'mistral-fast': 'mistralai/ministral-14b-instruct-2512',
   'google-light': 'google/gemma-4-31b-it',
-  'google-lightest': 'google/gemma-2-2b-it',
+  'google-lightest': 'poolside/laguna-xs-2.1',
   'google-lighter': 'google/gemma-3n-e4b-it',
   'm2.7': 'minimaxai/minimax-m2.7',
   'm3': 'minimaxai/minimax-m3',
