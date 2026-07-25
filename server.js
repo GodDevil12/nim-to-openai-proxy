@@ -67,8 +67,8 @@ const MODEL_MAPPING = {
   'mistral-nemo': 'mistralai/mistral-nemotron',
   'mistral-fast': 'mistralai/ministral-14b-instruct-2512',
   'google-light': 'google/gemma-4-31b-it',
-  'google-lightest': 'poolside/laguna-xs-2.1',
-  'google-lighter': 'nvidia/ising-calibration-1.5-31b',
+  'google-lightest': 'google/diffusiongemma-26b-a4b-it',
+  'google-lighter': 'qwen/qwen3-next-80b-a3b-instruct',
   'm2.7': 'minimaxai/minimax-m2.7',
   'm3': 'minimaxai/minimax-m3',
   'step-3.5-flash': 'stepfun-ai/step-3.5-flash',
@@ -77,7 +77,7 @@ const MODEL_MAPPING = {
 
 const FALLBACK_MODELS = [
   'google/gemma-4-31b-it',
-  'mistralai/mistral-medium-3.5-128b',
+  'deepseek-ai/deepseek-v4-pro',
   'openai/gpt-oss-20b',
   'abacusai/dracarys-llama-3.1-70b-instruct'
 ];
