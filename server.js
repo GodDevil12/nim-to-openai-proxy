@@ -69,7 +69,7 @@ const MODEL_MAPPING = {
   'google-light': 'google/gemma-4-31b-it',
   'google-lightest': 'google/diffusiongemma-26b-a4b-it',
   'google-lighter': 'qwen/qwen3-next-80b-a3b-instruct',
-  'm2.7': 'nicoboss/DeepSeek-R1-Distill-Qwen-32B-Uncensored',
+  'm2.7': 'deepseek-ai/deepseek-v4-flash-0731',
   'm3': 'minimaxai/minimax-m3',
   'step-3.5-flash': 'meta/llama-3.1-8b-instruct',
   'step-3.7-flash': 'stepfun-ai/step-3.7-flash'
