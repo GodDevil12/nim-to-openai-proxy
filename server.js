@@ -71,7 +71,7 @@ const MODEL_MAPPING = {
   'google-lighter': 'qwen/qwen3-next-80b-a3b-instruct',
   'kimi': 'moonshotai/kimi-k3.1-pro',
   'm3': 'minimaxai/minimax-m3.1-flash',
-  'step-3.5-flash': 'meta/llama-3.1-8b-instruct',
+  'step-3.5-flash': 'stepfun-ai/step-5-preview',
   'step-3.7-flash': 'stepfun-ai/step-3.7-flash'
 };
 
